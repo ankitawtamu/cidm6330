@@ -3,6 +3,12 @@ from unittest import TestCase, mock, main
 from unittest.mock import patch
 from barky import clear_screen, get_bookmark_id_for_deletion, get_github_import_options, get_new_bookmark_data, get_option_choice, get_new_bookmark_info, get_user_input, loop, option_choice_is_valid, print_options
 
+'''
+unittest.mock is a library for testing in Python.
+mock provides a patch() decorator that handles patching module and class level attributes within the scope of a test, along with sentinel for creating unique objects.
+When we nest patch decorators the mocks are passed in to the decorated function in the same order they applied (the normal Python order that decorators are applied). This means from the bottom up,
+so in the unittest below the mock for module.functionName is passed in first.
+'''
 
 class TestBarkyCode(unittest.TestCase):
 

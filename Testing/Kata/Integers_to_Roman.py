@@ -1,4 +1,9 @@
-roman_numeral_list = (('M',  1000),
+
+class IntergerstoRoman:
+                  
+
+  def int_to_roman(x):
+    roman_numeral_list = (('M',  1000),
                      ('CM', 900),
                      ('D',  500),
                      ('CD', 400),
@@ -10,9 +15,7 @@ roman_numeral_list = (('M',  1000),
                      ('IX', 9),
                      ('V',  5),
                      ('IV', 4),
-                     ('I',  1))                 
-
-def int_to_roman(x):
+                     ('I',  1))
     '''convert integer to Roman numeral'''
     result = ''
     for numeral, integer in roman_numeral_list:

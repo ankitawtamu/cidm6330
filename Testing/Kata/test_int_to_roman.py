@@ -1,6 +1,6 @@
 
 import unittest
-from Integers_to_Roman import IntegerstoRoman
+from Kata.Integers_to_Roman import IntergerstoRoman
 
 class Values(unittest.TestCase):
     values = ( (1, 'I'),

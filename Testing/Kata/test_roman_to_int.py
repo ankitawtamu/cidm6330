@@ -1,6 +1,6 @@
 
 import unittest
-from Kata.Integers_to_Roman import IntergerstoRoman
+from Kata.Roman_to_Integers import RomantoIntegers
 
 class Values(unittest.TestCase):
     values = ( (1, 'I'),
@@ -48,11 +48,11 @@ class Values(unittest.TestCase):
                      (2892, 'MMDCCCXCII'),
                      (2975, 'MMCMLXXV'))
 
-    def test_to_roman_values(self):
-        '''Integer_to_roman should give known result with known input'''
+    def test_to_integer_values(self):
+        '''Roman_to_integer should give known result with known input'''
         for integer, numeral in self.values:
-            result = IntergerstoRoman.int_to_roman(integer)
-            self.assertEqual(numeral, result)
+            result = RomantoIntegers.Roman_to_integer(numeral)
+            self.assertEqual(integer, result)
 
 if __name__ == '__main__':
     unittest.main()

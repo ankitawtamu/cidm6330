@@ -9,7 +9,7 @@ import sqlite3
 import pytest
 
 
-from database import DatabaseManager
+from Barky.database import DatabaseManager
 
 @pytest.fixture
 def database_manager() -> DatabaseManager:
@@ -77,3 +77,98 @@ def test_database_manager_add_bookmark(database_manager):
     cursor = conn.cursor()
     cursor.execute(''' SELECT * FROM bookmarks WHERE title='test_title' ''')    
     assert cursor.fetchone()[0] == 1    
+
+
+def test_database_manager_del_bookmark(database_manager):
+
+    # arrange
+    database_manager.create_table(
+        "bookmarks",
+        {
+            "id": "integer primary key autoincrement",
+            "title": "text not null",
+            "url": "text not null",
+            "notes": "text",
+            "date_added": "text not null",
+        },
+    )   
+    database_manager.add(
+        "bookmarks",
+       {  
+        "title": "test_title",
+        "url": "http://example.com",
+        "notes": "test notes",
+        "date_added": datetime.utcnow().isoformat()        
+       },
+    )
+
+    criteria = {"title": "test_title"}
+
+    # act
+    database_manager.delete("bookmarks", criteria)
+
+    # assert
+    conn = database_manager.connection
+    cursor = conn.cursor()
+    cursor.execute(''' SELECT * FROM bookmarks WHERE title='test_title' ''')    
+    assert cursor.fetchone() == None
+
+
+def test_database_manager_select_bookmark(database_manager):
+
+    # arrange
+    database_manager.create_table(
+        "bookmarks",
+        {
+            "id": "integer primary key autoincrement",
+            "title": "text not null",
+            "url": "text not null",
+            "notes": "text",
+            "date_added": "text not null",
+        },
+    )   
+    database_manager.add(
+        "bookmarks",
+       {  
+        "title": "test_title",
+        "url": "http://example.com",
+        "notes": "test notes",
+        "date_added": datetime.utcnow().isoformat()        
+       },
+    )
+
+    criteria = {"url": "http://example.com"}
+    order_by = "title"
+
+    # act
+    database_manager.select("bookmarks", criteria,order_by)
+
+    # assert
+    conn = database_manager.connection
+    cursor = conn.cursor()
+    cursor.execute(''' SELECT * FROM bookmarks WHERE "url"='http://example.com' ORDER BY title''')    
+    assert cursor.fetchone()[0] == 1 
+
+def test_database_manager_drop_table(database_manager):
+
+    # arrange
+    database_manager.create_table(
+        "bookmarks",
+        {
+            "id": "integer primary key autoincrement",
+            "title": "text not null",
+            "url": "text not null",
+            "notes": "text",
+            "date_added": "text not null",
+        },
+    )
+
+     
+    # act
+    database_manager.drop_table("bookmarks")
+
+    # assert
+    conn = database_manager.connection
+    cursor = conn.cursor()
+    cursor.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='bookmarks' ''')    
+    assert cursor.fetchone()[0] == 0  
